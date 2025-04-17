@@ -1,0 +1,1 @@
+export { journeyTypeRouter } from './journeyTypeRouter';
