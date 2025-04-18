@@ -1,8 +1,14 @@
-import { Request, Response, Router } from 'express';
-import { checkExact, checkSchema, matchedData, Schema, validationResult } from 'express-validator';
-import { options } from '@freight/common-router-options';
-import { journeyTypeValidationSchemaDeleteJourneyType } from '@freight/dolomite-router-validation-schemas';
 import { journeyTypeController } from '@app/api/controllers/journeyTypeController';
+import { journeyTypeValidationSchemaDeleteJourneyType } from '@datr.tech/cargo-router-validation-schemas-dolomite';
+import { options } from '@datr.tech/leith-config-api-router-options';
+import { Request, Response, Router } from 'express';
+import {
+  checkExact,
+  checkSchema,
+  matchedData,
+  Schema,
+  validationResult,
+} from 'express-validator';
 
 export const journeyTypeRouterDeleteJourneyType = Router(options).get(
   '/',
@@ -13,7 +19,9 @@ export const journeyTypeRouterDeleteJourneyType = Router(options).get(
 
     if (errors.isEmpty()) {
       const { journeyTypeId } = matchedData(req);
-      const deleteResponse = await journeyTypeController.deleteJourneyType({ journeyTypeId });
+      const deleteResponse = await journeyTypeController.deleteJourneyType({
+        journeyTypeId,
+      });
 
       res.status(200).send({ deleteResponse });
     } else {

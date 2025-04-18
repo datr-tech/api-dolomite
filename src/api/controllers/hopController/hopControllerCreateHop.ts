@@ -1,7 +1,15 @@
-import { Types } from 'mongoose';
 import { HopModel } from '@app/api/models';
+import { Types } from 'mongoose';
 
-export const hopControllerCreateHop = async ({ name, description, order, journeyId, resourceId, adminUserId, adminStatusId }) => {
+export const hopControllerCreateHop = async ({
+  name,
+  description,
+  order,
+  journeyId,
+  resourceId,
+  adminUserId,
+  adminStatusId,
+}) => {
   const hopId = new Types.ObjectId();
   const modelParams = {
     hopId,

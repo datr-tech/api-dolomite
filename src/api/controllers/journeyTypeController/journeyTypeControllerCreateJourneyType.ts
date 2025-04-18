@@ -1,7 +1,12 @@
-import { Types } from 'mongoose';
 import { JourneyTypeModel } from '@app/api/models';
+import { Types } from 'mongoose';
 
-export const journeyTypeControllerCreateJourneyType = async ({ name, description, adminStatusId, adminUserId }) => {
+export const journeyTypeControllerCreateJourneyType = async ({
+  name,
+  description,
+  adminStatusId,
+  adminUserId,
+}) => {
   const journeyTypeId = new Types.ObjectId();
   const modelParams = {
     journeyTypeId,

@@ -1,6 +1,9 @@
 import { JourneyTypeModel } from '@app/api/models';
 
-export const journeyTypeControllerUpdateJourneyType = async ({ journeyTypeId, payload }) => {
+export const journeyTypeControllerUpdateJourneyType = async ({
+  journeyTypeId,
+  payload,
+}) => {
   const res = await JourneyTypeModel.findOneAndUpdate(
     {
       _id: journeyTypeId,

@@ -1,9 +1,15 @@
-import { Request, Response, Router } from 'express';
-import { checkExact, checkSchema, matchedData, Schema, validationResult } from 'express-validator';
-import { options } from '@freight/common-router-options';
-import { journeyTypeValidationSchemaCreateJourneyType } from '@freight/dolomite-router-validation-schemas';
 import { journeyTypeController } from '@app/api/controllers/journeyTypeController';
 import { IJourneyTypeModel } from '@app/interfaces/api/models/IJourneyTypeModel';
+import { journeyTypeValidationSchemaCreateJourneyType } from '@datr.tech/cargo-router-validation-schemas-dolomite';
+import { options } from '@datr.tech/leith-config-api-router-options';
+import { Request, Response, Router } from 'express';
+import {
+  checkExact,
+  checkSchema,
+  matchedData,
+  Schema,
+  validationResult,
+} from 'express-validator';
 
 export const journeyTypeRouterCreateJourneyType = Router(options).post(
   '/',
@@ -14,7 +20,8 @@ export const journeyTypeRouterCreateJourneyType = Router(options).post(
 
     if (errors.isEmpty()) {
       const validatedParams = matchedData<IJourneyTypeModel>(req);
-      const journeyTypeId = await journeyTypeController.createJourneyType(validatedParams);
+      const journeyTypeId =
+        await journeyTypeController.createJourneyType(validatedParams);
 
       res.status(201).send({ journeyTypeId });
     } else {

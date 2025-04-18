@@ -1,8 +1,14 @@
-import { Request, Response, Router } from 'express';
-import { checkExact, checkSchema, matchedData, Schema, validationResult } from 'express-validator';
-import { options } from '@freight/common-router-options';
-import { journeyTypeValidationSchemaReadJourneyType } from '@freight/dolomite-router-validation-schemas';
 import { journeyTypeController } from '@app/api/controllers/journeyTypeController';
+import { journeyTypeValidationSchemaReadJourneyType } from '@datr.tech/cargo-router-validation-schemas-dolomite';
+import { options } from '@datr.tech/leith-config-api-router-options';
+import { Request, Response, Router } from 'express';
+import {
+  checkExact,
+  checkSchema,
+  matchedData,
+  Schema,
+  validationResult,
+} from 'express-validator';
 
 export const journeyTypeRouterReadJourneyType = Router(options).get(
   '/',

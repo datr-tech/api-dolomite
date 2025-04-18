@@ -1,5 +1,5 @@
-import { Types } from 'mongoose';
 import { JourneyTypeModel } from '@app/api/models';
+import { Types } from 'mongoose';
 
 export const journeyTypeControllerDeleteJourneyType = async ({ journeyTypeId }) => {
   const res = await JourneyTypeModel.findOneAndUpdate(

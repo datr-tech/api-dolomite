@@ -1,11 +1,14 @@
-import { model, Schema } from 'mongoose';
-import { journeyModelSchema, journeyModelSchemaOptions } from '@freight/dolomite-model-schemas';
 import {
   modelValidatorAdminStatusId,
   modelValidatorAdminUserId,
-  modelValidatorJourneyTypeId,
   modelValidatorFrameworkId,
+  modelValidatorJourneyTypeId,
 } from '@app/api/modelValidators';
+import {
+  journeyModelSchema,
+  journeyModelSchemaOptions,
+} from '@datr.tech/parcel-model-schemas-dolomite';
+import { model, Schema } from 'mongoose';
 
 const journeySchema = new Schema(journeyModelSchema, journeyModelSchemaOptions);
 

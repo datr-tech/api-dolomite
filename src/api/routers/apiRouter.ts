@@ -1,5 +1,5 @@
+import { options } from '@datr.tech/leith-config-api-router-options';
 import { Router } from 'express';
-import { options } from '@freight/common-router-options';
 import { hopRouter } from './hopRouter';
 import { journeyRouter } from './journeyRouter';
 import { journeyTypeRouter } from './journeyTypeRouter';
