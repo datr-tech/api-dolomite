@@ -2,9 +2,9 @@ services:
   api-dolomite:
     build: .
     ports:
-      - "${API_PORT}:{API_PORT}"
+      - "${API_PORT}:${API_PORT}"
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:${API_PORT}" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:${API_PORT}/healthcheck" ]
       interval: 10s
       timeout: 10s
       retries: 3

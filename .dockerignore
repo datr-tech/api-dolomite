@@ -4,9 +4,12 @@ cspell.json
 eslint.config.mjs
 jest.config.ts
 LICENSE.txt
-node_modules
-package-lock.json
 README.md
-src
 tsconfig.json
-webpack.config.mjs
+
+.git
+.github
+.husky
+
+coverage
+src
