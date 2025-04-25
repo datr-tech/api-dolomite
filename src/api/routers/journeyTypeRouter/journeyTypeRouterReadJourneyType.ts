@@ -1,4 +1,4 @@
-import { journeyTypeController } from '@api-dolomite/api/controllers/journeyTypeController';
+import { journeyTypeController } from '@app-ad/api/controllers/journeyTypeController';
 import { journeyTypeValidationSchemaReadJourneyType } from '@datr.tech/cargo-router-validation-schemas-dolomite';
 import { options } from '@datr.tech/leith-config-api-router-options';
 import { Request, Response, Router } from 'express';

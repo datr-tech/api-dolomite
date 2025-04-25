@@ -1,5 +1,5 @@
-import { hopController } from '@api-dolomite/api/controllers/hopController';
-import { IHopModel } from '@api-dolomite/interfaces/api/models/IHopModel';
+import { hopController } from '@app-ad/api/controllers/hopController';
+import { IHopModel } from '@app-ad/interfaces/api/models/IHopModel';
 import { hopValidationSchemaCreateHop } from '@datr.tech/cargo-router-validation-schemas-dolomite';
 import { options } from '@datr.tech/leith-config-api-router-options';
 import { Request, Response, Router } from 'express';

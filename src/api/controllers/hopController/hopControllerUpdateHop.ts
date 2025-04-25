@@ -1,4 +1,4 @@
-import { HopModel } from '@api-dolomite/api/models';
+import { HopModel } from '@app-ad/api/models';
 
 export const hopControllerUpdateHop = async ({ hopId, payload }) => {
   const res = await HopModel.findOneAndUpdate(

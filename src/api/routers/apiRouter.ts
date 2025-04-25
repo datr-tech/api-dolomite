@@ -5,6 +5,6 @@ import { journeyRouter } from './journeyRouter';
 import { journeyTypeRouter } from './journeyTypeRouter';
 
 export const apiRouter = Router(options)
-  .use('/api/v1/hopRouter', hopRouter)
-  .use('/api/v1/journeyRouter', journeyRouter)
-  .use('/api/v1/journeyTypeRouter', journeyTypeRouter);
+  .use('/api/v1/hop', hopRouter)
+  .use('/api/v1/journey', journeyRouter)
+  .use('/api/v1/journeyType', journeyTypeRouter);

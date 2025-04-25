@@ -1,4 +1,4 @@
-import { JourneyTypeModel } from '@api-dolomite/api/models';
+import { JourneyTypeModel } from '@app-ad/api/models';
 import { Types } from 'mongoose';
 
 export const journeyTypeControllerCreateJourneyType = async ({
