@@ -1,7 +1,7 @@
 import {
   modelValidatorAdminStatusId,
   modelValidatorAdminUserId,
-} from '@app/api/modelValidators';
+} from '@api-dolomite/api/modelValidators';
 import {
   journeyTypeModelSchema,
   journeyTypeModelSchemaOptions,

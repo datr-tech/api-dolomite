@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.JourneyModel = void 0;
+const modelValidators_1 = require("@app/api/modelValidators");
+const parcel_model_schemas_dolomite_1 = require("@datr.tech/parcel-model-schemas-dolomite");
+const mongoose_1 = require("mongoose");
+const journeySchema = new mongoose_1.Schema(parcel_model_schemas_dolomite_1.journeyModelSchema, parcel_model_schemas_dolomite_1.journeyModelSchemaOptions);
+journeySchema.post('validate', modelValidators_1.modelValidatorAdminStatusId);
+journeySchema.post('validate', modelValidators_1.modelValidatorAdminUserId);
+journeySchema.post('validate', modelValidators_1.modelValidatorFrameworkId);
+journeySchema.post('validate', modelValidators_1.modelValidatorJourneyTypeId);
+exports.JourneyModel = (0, mongoose_1.model)('JourneyModel', journeySchema);

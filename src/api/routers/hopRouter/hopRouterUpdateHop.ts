@@ -1,4 +1,4 @@
-import { hopController } from '@app/api/controllers/hopController';
+import { hopController } from '@api-dolomite/api/controllers/hopController';
 import { hopValidationSchemaUpdateHop } from '@datr.tech/cargo-router-validation-schemas-dolomite';
 import { options } from '@datr.tech/leith-config-api-router-options';
 import { Request, Response, Router } from 'express';

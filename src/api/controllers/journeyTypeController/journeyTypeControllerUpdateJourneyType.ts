@@ -1,4 +1,4 @@
-import { JourneyTypeModel } from '@app/api/models';
+import { JourneyTypeModel } from '@api-dolomite/api/models';
 
 export const journeyTypeControllerUpdateJourneyType = async ({
   journeyTypeId,

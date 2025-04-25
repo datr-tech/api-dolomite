@@ -1,4 +1,4 @@
-import { apiRouter } from '@app/api/routers';
+import { apiRouter } from '@api-dolomite/api/routers';
 import express from 'express';
 
 const { API_NAME } = process.env;

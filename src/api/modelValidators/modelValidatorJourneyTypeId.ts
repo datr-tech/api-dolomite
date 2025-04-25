@@ -1,4 +1,4 @@
-import { JourneyTypeModel } from '@app/api/models';
+import { JourneyTypeModel } from '@api-dolomite/api/models';
 
 export const modelValidatorJourneyTypeId = async (doc, next) => {
   let journeyType;

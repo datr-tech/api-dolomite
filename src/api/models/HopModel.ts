@@ -3,7 +3,7 @@ import {
   modelValidatorAdminUserId,
   modelValidatorJourneyId,
   modelValidatorResourceId,
-} from '@app/api/modelValidators';
+} from '@api-dolomite/api/modelValidators';
 import {
   hopModelSchema,
   hopModelSchemaOptions,

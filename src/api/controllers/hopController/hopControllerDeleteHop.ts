@@ -1,4 +1,4 @@
-import { HopModel } from '@app/api/models';
+import { HopModel } from '@api-dolomite/api/models';
 import { Types } from 'mongoose';
 
 export const hopControllerDeleteHop = async ({ hopId }) => {

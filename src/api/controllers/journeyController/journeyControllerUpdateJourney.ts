@@ -1,4 +1,4 @@
-import { JourneyModel } from '@app/api/models';
+import { JourneyModel } from '@api-dolomite/api/models';
 
 export const journeyControllerUpdateJourney = async ({ journeyId, payload }) => {
   const res = await JourneyModel.findOneAndUpdate(

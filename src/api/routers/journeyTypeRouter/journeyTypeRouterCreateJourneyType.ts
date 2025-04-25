@@ -1,5 +1,5 @@
-import { journeyTypeController } from '@app/api/controllers/journeyTypeController';
-import { IJourneyTypeModel } from '@app/interfaces/api/models/IJourneyTypeModel';
+import { journeyTypeController } from '@api-dolomite/api/controllers/journeyTypeController';
+import { IJourneyTypeModel } from '@api-dolomite/interfaces/api/models/IJourneyTypeModel';
 import { journeyTypeValidationSchemaCreateJourneyType } from '@datr.tech/cargo-router-validation-schemas-dolomite';
 import { options } from '@datr.tech/leith-config-api-router-options';
 import { Request, Response, Router } from 'express';
