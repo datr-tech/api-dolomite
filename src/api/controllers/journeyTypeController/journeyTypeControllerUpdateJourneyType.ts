@@ -21,15 +21,23 @@ import {
  * @param { number } params.payload.updatedAt  (Optional)
  *
  * @returns { Promise<IJourneyTypeControllerUpdateJourneyTypeOutput> }
+ * @returns { Promise<IJourneyTypeControllerUpdateJourneyTypeOutputError> } ON ERROR: Promise<{ error: true, payload: { message }}>
+ * @returns { Promise<IJourneyTypeControllerUpdateJourneyTypeOutputSuccess> } ON SUCCESS: Promise<{ error: false, payload: { journeyTypeModel }}>
  *
- * @example On succcess returns: Promise<{ error: false, payload: { journeyTypeModel }}>
- * @example On failure returns: Promise<{ error: true, payload: { message }}> On failure
+ * @author Datr.Tech Admin <admin@datr.tech>
  */
 export const journeyTypeControllerUpdateJourneyType: IJourneyTypeControllerUpdateJourneyType =
   async ({ journeyTypeId, payload }) => {
     const stat = { ...baseStat };
 
     try {
+      /*
+       * Attempt to find an instance of 'JourneyTypeModel'
+       * using the received 'journeyTypeId' param.
+       * When successful, update the found model using
+       * the key value pairs (or fields) from within the
+       * 'payload' param.
+       */
       await JourneyTypeModel.findOneAndUpdate(
         {
           _id: journeyTypeId,
@@ -40,12 +48,30 @@ export const journeyTypeControllerUpdateJourneyType: IJourneyTypeControllerUpdat
         },
       );
 
+      /*
+       * Use the standard controller response object,
+       * 'stat', to return the updated model's primary key.
+       */
       stat.error = false;
       stat.payload = { journeyTypeId };
+
+      /*
+       * Cast the response object to 'IJourneyTypeControllerUpdateJourneyTypeOutputSuccess',
+       * where the casting interface is a component of the binary union type
+       * 'IJourneyTypeControllerUpdateJourneyTypeOutput'.
+       */
       return stat as IJourneyTypeControllerUpdateJourneyTypeOutputSuccess;
     } catch (error) {
+      /*
+       * Use the standard controller response object,
+       * 'stat', to return the error message.
+       */
       const { message } = error;
       stat.payload = { message };
+
+      /*
+       * Cast the response object to 'IJourneyTypeControllerUpdateJourneyTypeOutputError',
+       */
       return stat as IJourneyTypeControllerUpdateJourneyTypeOutputError;
     }
   };

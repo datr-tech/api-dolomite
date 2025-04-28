@@ -23,9 +23,10 @@ import {
  * @param { number } params.payload.updatedAt  (Optional)
  *
  * @returns { Promise<IJourneyControllerUpdateJourneyOutput> }
+ * @returns { Promise<IJourneyControllerUpdateJourneyOutputError> } ON ERROR: Promise<{ error: true, payload: { message }}>
+ * @returns { Promise<IJourneyControllerUpdateJourneyOutputSuccess> } ON SUCCESS: Promise<{ error: false, payload: { journeyModel }}>
  *
- * @example On succcess returns: Promise<{ error: false, payload: { journeyModel }}>
- * @example On failure returns: Promise<{ error: true, payload: { message }}> On failure
+ * @author Datr.Tech Admin <admin@datr.tech>
  */
 export const journeyControllerUpdateJourney: IJourneyControllerUpdateJourney = async ({
   journeyId,
@@ -34,6 +35,13 @@ export const journeyControllerUpdateJourney: IJourneyControllerUpdateJourney = a
   const stat = { ...baseStat };
 
   try {
+    /*
+     * Attempt to find an instance of 'JourneyModel'
+     * using the received 'journeyId' param.
+     * When successful, update the found model using
+     * the key value pairs (or fields) from within the
+     * 'payload' param.
+     */
     await JourneyModel.findOneAndUpdate(
       {
         _id: journeyId,
@@ -44,12 +52,30 @@ export const journeyControllerUpdateJourney: IJourneyControllerUpdateJourney = a
       },
     );
 
+    /*
+     * Use the standard controller response object,
+     * 'stat', to return the updated model's primary key.
+     */
     stat.error = false;
     stat.payload = { journeyId };
+
+    /*
+     * Cast the response object to 'IJourneyControllerUpdateJourneyOutputSuccess',
+     * where the casting interface is a component of the binary union type
+     * 'IJourneyControllerUpdateJourneyOutput'.
+     */
     return stat as IJourneyControllerUpdateJourneyOutputSuccess;
   } catch (error) {
+    /*
+     * Use the standard controller response object,
+     * 'stat', to return the error message.
+     */
     const { message } = error;
     stat.payload = { message };
+
+    /*
+     * Cast the response object to 'IJourneyControllerUpdateJourneyOutputError',
+     */
     return stat as IJourneyControllerUpdateJourneyOutputError;
   }
 };

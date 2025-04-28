@@ -24,9 +24,10 @@ import { Types } from 'mongoose';
  * @param { number } params.updatedAt
  *
  * @returns { Promise<IJourneyControllerCreateJourneyOutput> }
+ * @returns { Promise<IJourneyControllerCreateJourneyOutputError> } ON ERROR: Promise<{ error: true, payload: { message }}>
+ * @returns { Promise<IJourneyControllerCreateJourneyOutputSuccess> } ON SUCCESS: Promise<{ error: false, payload: { journeyModel }}>
  *
- * @example On succcess returns: Promise<{ error: false, payload: { journeyModel }}>
- * @example On failure returns: Promise<{ error: true, payload: { message }}> On failure
+ * @author Datr.Tech Admin <admin@datr.tech>
  */
 export const journeyControllerCreateJourney: IJourneyControllerCreateJourney = async ({
   frameworkId,
@@ -41,6 +42,10 @@ export const journeyControllerCreateJourney: IJourneyControllerCreateJourney = a
   const stat = { ...baseStat };
 
   try {
+    /*
+     * Populate the local 'modelParams' variable
+     * with the received inputs.
+     */
     const journeyId = new Types.ObjectId();
     const modelParams = {
       journeyId,
@@ -54,15 +59,44 @@ export const journeyControllerCreateJourney: IJourneyControllerCreateJourney = a
       updatedAt,
     };
 
+    /*
+     * Use the populated 'modelParams' variable
+     * to create a new instance of 'JourneyModel'.
+     * 'db-dolomite'.
+     */
     const journeyModel = new JourneyModel(modelParams);
+
+    /*
+     * The save the created model to the associated store: 'db-dolomite',
+     */
     await journeyModel.save();
 
+    /*
+     * Use the standard controller response object,
+     * 'stat', to return the found model.
+     */
     stat.error = false;
-    stat.payload = { journeyId };
+    stat.payload = { journeyId: journeyModel.id };
+
+    /*
+     * Cast the response object to
+     * 'IJourneyControllerCreateJourneyOutputSuccess',
+     * where the casting interface is a component of
+     * the binary union type
+     * 'IJourneyControllerCreateJourneyOutput'.
+     */
     return stat as IJourneyControllerCreateJourneyOutputSuccess;
   } catch (error) {
+    /*
+     * Use the standard controller response object,
+     * 'stat', to return the error message.
+     */
     const { message } = error;
     stat.payload = { message };
+
+    /*
+     * Cast the response object to 'IJourneyControllerCreateJourneyOutputError',
+     */
     return stat as IJourneyControllerCreateJourneyOutputError;
   }
 };

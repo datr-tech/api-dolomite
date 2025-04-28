@@ -16,9 +16,10 @@ import { Types } from 'mongoose';
  * @param { Types.ObjectId } params.journeyId
  *
  * @returns { Promise<IJourneyControllerDeleteJourneyOutput> }
+ * @returns { Promise<IJourneyControllerDeleteJourneyOutputError> } ON ERROR: Promise<{ error: true, payload: { message }}>
+ * @returns { Promise<IJourneyControllerDeleteJourneyOutputSuccess> } ON SUCCESS: Promise<{ error: false, payload: { journeyModel }}>
  *
- * @example On succcess returns: Promise<{ error: false, payload: { journeyModel }}>
- * @example On failure returns: Promise<{ error: true, payload: { message }}> On failure
+ * @author Datr.Tech Admin <admin@datr.tech>
  */
 export const journeyControllerDeleteJourney: IJourneyControllerDeleteJourney = async ({
   journeyId,
@@ -26,7 +27,14 @@ export const journeyControllerDeleteJourney: IJourneyControllerDeleteJourney = a
   const stat = { ...baseStat };
 
   try {
-    await JourneyModel.findOneAndUpdate(
+    /*
+     * Attempt to find an instance of 'JourneyModel'
+     * using the received 'journeyId' param.
+     * When successful, perform a "soft delete" upon the
+     * found model by updating the value of the model's
+     * 'adminStatusId' field.
+     */
+    const journeyModel = await JourneyModel.findOneAndUpdate(
       {
         _id: journeyId,
       },
@@ -38,12 +46,33 @@ export const journeyControllerDeleteJourney: IJourneyControllerDeleteJourney = a
       },
     );
 
+    /*
+     * Use the standard controller response object,
+     * 'stat', to return the primary key of the
+     * "soft deleted" model.
+     */
     stat.error = false;
-    stat.payload = { journeyId };
+    stat.payload = { journeyId: journeyModel.id };
+
+    /*
+     * Cast the response object to
+     * 'IJourneyControllerDeleteJourneyOutputSuccess',
+     * where the casting interface is a component of
+     * the binary union type
+     * 'IJourneyControllerDeleteJourneyOutput'.
+     */
     return stat as IJourneyControllerDeleteJourneyOutputSuccess;
   } catch (error) {
+    /*
+     * Use the standard controller response object,
+     * 'stat', to return the error message.
+     */
     const { message } = error;
     stat.payload = { message };
+
+    /*
+     * Cast the response object to 'IJourneyControllerDeleteJourneyOutputError',
+     */
     return stat as IJourneyControllerDeleteJourneyOutputError;
   }
 };

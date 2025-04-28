@@ -16,15 +16,23 @@ import { Types } from 'mongoose';
  * @param { Types.ObjectId } params.hopId
  *
  * @returns { Promise<IHopControllerDeleteHopOutput> }
+ * @returns { Promise<IHopControllerDeleteHopOutputError> } ON ERROR: Promise<{ error: true, payload: { message }}>
+ * @returns { Promise<IHopControllerDeleteHopOutputSuccess> } ON SUCCESS: Promise<{ error: false, payload: { hopModel }}>
  *
- * @example On succcess returns: Promise<{ error: false, payload: { hopModel }}>
- * @example On failure returns: Promise<{ error: true, payload: { message }}> On failure
+ * @author Datr.Tech Admin <admin@datr.tech>
  */
 export const hopControllerDeleteHop: IHopControllerDeleteHop = async ({ hopId }) => {
   const stat = { ...baseStat };
 
   try {
-    await HopModel.findOneAndUpdate(
+    /*
+     * Attempt to find an instance of 'HopModel'
+     * using the received 'hopId' param.
+     * When successful, perform a "soft delete" upon the
+     * found model by updating the value of the model's
+     * 'adminStatusId' field.
+     */
+    const hopModel = await HopModel.findOneAndUpdate(
       {
         _id: hopId,
       },
@@ -36,12 +44,33 @@ export const hopControllerDeleteHop: IHopControllerDeleteHop = async ({ hopId })
       },
     );
 
+    /*
+     * Use the standard controller response object,
+     * 'stat', to return the primary key of the
+     * "soft deleted" model.
+     */
     stat.error = false;
-    stat.payload = { hopId };
+    stat.payload = { hopId: hopModel.id };
+
+    /*
+     * Cast the response object to
+     * 'IHopControllerDeleteHopOutputSuccess',
+     * where the casting interface is a component of
+     * the binary union type
+     * 'IHopControllerDeleteHopOutput'.
+     */
     return stat as IHopControllerDeleteHopOutputSuccess;
   } catch (error) {
+    /*
+     * Use the standard controller response object,
+     * 'stat', to return the error message.
+     */
     const { message } = error;
     stat.payload = { message };
+
+    /*
+     * Cast the response object to 'IHopControllerDeleteHopOutputError',
+     */
     return stat as IHopControllerDeleteHopOutputError;
   }
 };

@@ -25,9 +25,10 @@ import { Types } from 'mongoose';
  * @param { number } params.updatedAt
  *
  * @returns { Promise<IHopControllerCreateHopOutput> }
+ * @returns { Promise<IHopControllerCreateHopOutputError> } ON ERROR: Promise<{ error: true, payload: { message }}>
+ * @returns { Promise<IHopControllerCreateHopOutputSuccess> } ON SUCCESS: Promise<{ error: false, payload: { hopModel }}>
  *
- * @example On succcess returns: Promise<{ error: false, payload: { hopModel }}>
- * @example On failure returns: Promise<{ error: true, payload: { message }}> On failure
+ * @author Datr.Tech Admin <admin@datr.tech>
  */
 export const hopControllerCreateHop: IHopControllerCreateHop = async ({
   journeyId,
@@ -43,6 +44,10 @@ export const hopControllerCreateHop: IHopControllerCreateHop = async ({
   const stat = { ...baseStat };
 
   try {
+    /*
+     * Populate the local 'modelParams' variable
+     * with the received inputs.
+     */
     const hopId = new Types.ObjectId();
     const modelParams = {
       hopId,
@@ -57,15 +62,44 @@ export const hopControllerCreateHop: IHopControllerCreateHop = async ({
       updatedAt,
     };
 
+    /*
+     * Use the populated 'modelParams' variable
+     * to create a new instance of 'HopModel'.
+     * 'db-dolomite'.
+     */
     const hopModel = new HopModel(modelParams);
+
+    /*
+     * The save the created model to the associated store: 'db-dolomite',
+     */
     await hopModel.save();
 
+    /*
+     * Use the standard controller response object,
+     * 'stat', to return the found model.
+     */
     stat.error = false;
-    stat.payload = { hopId };
+    stat.payload = { hopId: hopModel.id };
+
+    /*
+     * Cast the response object to
+     * 'IHopControllerCreateHopOutputSuccess',
+     * where the casting interface is a component of
+     * the binary union type
+     * 'IHopControllerCreateHopOutput'.
+     */
     return stat as IHopControllerCreateHopOutputSuccess;
   } catch (error) {
+    /*
+     * Use the standard controller response object,
+     * 'stat', to return the error message.
+     */
     const { message } = error;
     stat.payload = { message };
+
+    /*
+     * Cast the response object to 'IHopControllerCreateHopOutputError',
+     */
     return stat as IHopControllerCreateHopOutputError;
   }
 };
