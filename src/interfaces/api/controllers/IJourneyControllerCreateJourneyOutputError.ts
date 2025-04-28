@@ -1,6 +1,6 @@
 export interface IJourneyControllerCreateJourneyOutputError {
   error: true;
-  payload: {
-    message: string;
-  };
+	payload: 	{ 
+		message: string;
+	};
 }

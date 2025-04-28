@@ -1,6 +1,6 @@
-import { IHopControllerUpdateHopInput } from './IHopControllerUpdateHopInput';
-import { IHopControllerUpdateHopOutput } from './IHopControllerUpdateHopOutput';
+import { IHopControllerUpdateHopInput } from "./IHopControllerUpdateHopInput";
+import { IHopControllerUpdateHopOutput } from "./IHopControllerUpdateHopOutput";
 
 export interface IHopControllerUpdateHop {
-  (args: IHopControllerUpdateHopInput): Promise<IHopControllerUpdateHopOutput>;
+	(args: IHopControllerUpdateHopInput): Promise<IHopControllerUpdateHopOutput>;
 }

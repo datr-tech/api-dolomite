@@ -1,6 +1,6 @@
 export interface IHopControllerDeleteHopOutputError {
   error: true;
-  payload: {
-    message: string;
-  };
+	payload: 	{ 
+		message: string;
+	};
 }

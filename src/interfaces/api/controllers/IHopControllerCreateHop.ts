@@ -1,6 +1,6 @@
-import { IHopControllerCreateHopInput } from './IHopControllerCreateHopInput';
-import { IHopControllerCreateHopOutput } from './IHopControllerCreateHopOutput';
+import { IHopControllerCreateHopInput } from "./IHopControllerCreateHopInput";
+import { IHopControllerCreateHopOutput } from "./IHopControllerCreateHopOutput";
 
 export interface IHopControllerCreateHop {
-  (args: IHopControllerCreateHopInput): Promise<IHopControllerCreateHopOutput>;
+	(args: IHopControllerCreateHopInput): Promise<IHopControllerCreateHopOutput>;
 }

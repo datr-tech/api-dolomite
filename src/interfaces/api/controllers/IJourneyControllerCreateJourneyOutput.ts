@@ -1,6 +1,4 @@
-import { IJourneyControllerCreateJourneyOutputError } from './IJourneyControllerCreateJourneyOutputError';
-import { IJourneyControllerCreateJourneyOutputSuccess } from './IJourneyControllerCreateJourneyOutputSuccess';
+import { IJourneyControllerCreateJourneyOutputError } from "./IJourneyControllerCreateJourneyOutputError";
+import { IJourneyControllerCreateJourneyOutputSuccess } from "./IJourneyControllerCreateJourneyOutputSuccess";
 
-export type IJourneyControllerCreateJourneyOutput =
-  | IJourneyControllerCreateJourneyOutputSuccess
-  | IJourneyControllerCreateJourneyOutputError;
+export type IJourneyControllerCreateJourneyOutput = IJourneyControllerCreateJourneyOutputSuccess | IJourneyControllerCreateJourneyOutputError;

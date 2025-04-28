@@ -1,6 +1,6 @@
 export interface IJourneyControllerDeleteJourneyOutputError {
   error: true;
-  payload: {
-    message: string;
-  };
+	payload: 	{ 
+		message: string;
+	};
 }

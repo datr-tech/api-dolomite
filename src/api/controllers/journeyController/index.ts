@@ -1,0 +1,1 @@
+export { journeyController } from "./journeyController";

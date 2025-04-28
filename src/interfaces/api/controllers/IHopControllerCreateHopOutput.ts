@@ -1,6 +1,4 @@
-import { IHopControllerCreateHopOutputError } from './IHopControllerCreateHopOutputError';
-import { IHopControllerCreateHopOutputSuccess } from './IHopControllerCreateHopOutputSuccess';
+import { IHopControllerCreateHopOutputError } from "./IHopControllerCreateHopOutputError";
+import { IHopControllerCreateHopOutputSuccess } from "./IHopControllerCreateHopOutputSuccess";
 
-export type IHopControllerCreateHopOutput =
-  | IHopControllerCreateHopOutputSuccess
-  | IHopControllerCreateHopOutputError;
+export type IHopControllerCreateHopOutput = IHopControllerCreateHopOutputSuccess | IHopControllerCreateHopOutputError;

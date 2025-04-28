@@ -1,6 +1,4 @@
-import { IHopControllerReadHopOutputError } from './IHopControllerReadHopOutputError';
-import { IHopControllerReadHopOutputSuccess } from './IHopControllerReadHopOutputSuccess';
+import { IHopControllerReadHopOutputError } from "./IHopControllerReadHopOutputError";
+import { IHopControllerReadHopOutputSuccess } from "./IHopControllerReadHopOutputSuccess";
 
-export type IHopControllerReadHopOutput =
-  | IHopControllerReadHopOutputSuccess
-  | IHopControllerReadHopOutputError;
+export type IHopControllerReadHopOutput = IHopControllerReadHopOutputSuccess | IHopControllerReadHopOutputError;
