@@ -1,8 +1,5 @@
-import { Types } from "mongoose";
+import { Types } from 'mongoose';
 
 export interface IJourneyTypeControllerReadJourneyTypeInput {
-  
-		journeyTypeId :  Types.ObjectId;
-		
-  
+  journeyTypeId: Types.ObjectId;
 }

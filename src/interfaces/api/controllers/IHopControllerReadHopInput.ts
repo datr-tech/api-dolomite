@@ -1,8 +1,5 @@
-import { Types } from "mongoose";
+import { Types } from 'mongoose';
 
 export interface IHopControllerReadHopInput {
-  
-		hopId :  Types.ObjectId;
-		
-  
+  hopId: Types.ObjectId;
 }

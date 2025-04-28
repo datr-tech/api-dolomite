@@ -1,6 +1,8 @@
-import { IJourneyTypeControllerReadJourneyTypeInput } from "./IJourneyTypeControllerReadJourneyTypeInput";
-import { IJourneyTypeControllerReadJourneyTypeOutput } from "./IJourneyTypeControllerReadJourneyTypeOutput";
+import { IJourneyTypeControllerReadJourneyTypeInput } from './IJourneyTypeControllerReadJourneyTypeInput';
+import { IJourneyTypeControllerReadJourneyTypeOutput } from './IJourneyTypeControllerReadJourneyTypeOutput';
 
 export interface IJourneyTypeControllerReadJourneyType {
-	(args: IJourneyTypeControllerReadJourneyTypeInput): Promise<IJourneyTypeControllerReadJourneyTypeOutput>;
+  (
+    args: IJourneyTypeControllerReadJourneyTypeInput,
+  ): Promise<IJourneyTypeControllerReadJourneyTypeOutput>;
 }

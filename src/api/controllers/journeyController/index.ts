@@ -1,1 +1,1 @@
-export { journeyController } from "./journeyController";
+export { journeyController } from './journeyController';

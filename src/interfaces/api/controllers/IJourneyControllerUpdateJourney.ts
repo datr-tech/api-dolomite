@@ -1,6 +1,8 @@
-import { IJourneyControllerUpdateJourneyInput } from "./IJourneyControllerUpdateJourneyInput";
-import { IJourneyControllerUpdateJourneyOutput } from "./IJourneyControllerUpdateJourneyOutput";
+import { IJourneyControllerUpdateJourneyInput } from './IJourneyControllerUpdateJourneyInput';
+import { IJourneyControllerUpdateJourneyOutput } from './IJourneyControllerUpdateJourneyOutput';
 
 export interface IJourneyControllerUpdateJourney {
-	(args: IJourneyControllerUpdateJourneyInput): Promise<IJourneyControllerUpdateJourneyOutput>;
+  (
+    args: IJourneyControllerUpdateJourneyInput,
+  ): Promise<IJourneyControllerUpdateJourneyOutput>;
 }

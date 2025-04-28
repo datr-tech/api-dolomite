@@ -1,12 +1,11 @@
- import { Types } from "mongoose"; 
 import { HopModel } from '@app-ad/api/models';
 import { baseStat } from '@app-ad/api/util/baseStat';
 import {
-	IHopControllerDeleteHop,
-	IHopControllerDeleteHopOutputError,
-	IHopControllerDeleteHopOutputSuccess
+  IHopControllerDeleteHop,
+  IHopControllerDeleteHopOutputError,
+  IHopControllerDeleteHopOutputSuccess,
 } from '@app-ad/interfaces/api/controllers';
-
+import { Types } from 'mongoose';
 
 /**
  * hopControllerDeleteHop
@@ -15,39 +14,34 @@ import {
  *
  * @param { IHopControllerDeleteHopInput } params
  * @param { Types.ObjectId } params.hopId
-    *
+ *
  * @returns { Promise<IHopControllerDeleteHopOutput> }
  *
  * @example On succcess returns: Promise<{ error: false, payload: { hopModel }}>
  * @example On failure returns: Promise<{ error: true, payload: { message }}> On failure
- */ 
+ */
 export const hopControllerDeleteHop: IHopControllerDeleteHop = async ({ hopId }) => {
-	  const stat = { ...baseStat };
+  const stat = { ...baseStat };
 
-  try { 
+  try {
+    await HopModel.findOneAndUpdate(
+      {
+        _id: hopId,
+      },
+      {
+        adminStatusId: new Types.ObjectId(),
+      },
+      {
+        includeResultMetadata: true,
+      },
+    );
 
-		
-		await HopModel.findOneAndUpdate(
-			{
-				_id: hopId
-			},
-			{
-				adminStatusId: new Types.ObjectId()
-			},
-			{
-				includeResultMetadata: true
-			}
-		);
-
-		stat.error = false;
-		stat.payload = { hopId };
+    stat.error = false;
+    stat.payload = { hopId };
     return stat as IHopControllerDeleteHopOutputSuccess;
-	
-		} catch(error) {
-		const { message } = error;
-		stat.payload = { message };
-		return stat as IHopControllerDeleteHopOutputError;
-	}
-
+  } catch (error) {
+    const { message } = error;
+    stat.payload = { message };
+    return stat as IHopControllerDeleteHopOutputError;
+  }
 };
-

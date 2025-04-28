@@ -1,13 +1,11 @@
-import { journeyTypeControllerCreateJourneyType } from "./journeyTypeControllerCreateJourneyType";
-import { journeyTypeControllerUpdateJourneyType } from "./journeyTypeControllerUpdateJourneyType";
-import { journeyTypeControllerReadJourneyType } from "./journeyTypeControllerReadJourneyType";
-import { journeyTypeControllerDeleteJourneyType } from "./journeyTypeControllerDeleteJourneyType";
+import { journeyTypeControllerCreateJourneyType } from './journeyTypeControllerCreateJourneyType';
+import { journeyTypeControllerDeleteJourneyType } from './journeyTypeControllerDeleteJourneyType';
+import { journeyTypeControllerReadJourneyType } from './journeyTypeControllerReadJourneyType';
+import { journeyTypeControllerUpdateJourneyType } from './journeyTypeControllerUpdateJourneyType';
 
-
-export const journeyTypeController = { 
-	createJourneyType: journeyTypeControllerCreateJourneyType,
-	updateJourneyType: journeyTypeControllerUpdateJourneyType,
-	readJourneyType: journeyTypeControllerReadJourneyType,
-	deleteJourneyType: journeyTypeControllerDeleteJourneyType,
-	
+export const journeyTypeController = {
+  createJourneyType: journeyTypeControllerCreateJourneyType,
+  updateJourneyType: journeyTypeControllerUpdateJourneyType,
+  readJourneyType: journeyTypeControllerReadJourneyType,
+  deleteJourneyType: journeyTypeControllerDeleteJourneyType,
 };

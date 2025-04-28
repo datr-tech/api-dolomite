@@ -1,1 +1,1 @@
-export { journeyTypeController } from "./journeyTypeController";
+export { journeyTypeController } from './journeyTypeController';
