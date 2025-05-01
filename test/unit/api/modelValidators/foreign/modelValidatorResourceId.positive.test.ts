@@ -3,17 +3,17 @@ const entityServiceHasResourceMock = jest.fn().mockReturnValue(true);
 jest.mock('@datr.tech/leith-common-services', () => ({
   __esModule: true,
   entityService: {
-		hasResource: entityServiceHasResourceMock
-  }
+    hasResource: entityServiceHasResourceMock,
+  },
 }));
 
-import { modelValidatorResourceId } from "@app-ad/api/modelValidators/foreign";
+import { modelValidatorResourceId } from '@app-ad/api/modelValidators/foreign';
 import { Types } from 'mongoose';
 
-describe( "modelValidatorResourceId", () => {
-	describe("positive", () => {
-		test("should not throw an error when the underlying entityService (mocked) returns true", async () => {
-			/*
+describe('modelValidatorResourceId', () => {
+  describe('positive', () => {
+    test('should not throw an error when the underlying entityService (mocked) returns true', async () => {
+      /*
        * Arrange
        */
       const idMock = new Types.ObjectId();
@@ -23,14 +23,14 @@ describe( "modelValidatorResourceId", () => {
       /*
        * Act
        */
-			await modelValidatorResourceId(docMock, nextMock);
+      await modelValidatorResourceId(docMock, nextMock);
 
-			/*
+      /*
        * Assert
        */
-		  expect( entityServiceHasResourceMock ).toHaveBeenCalledTimes(1);
-		  expect( entityServiceHasResourceMock ).toHaveBeenCalledWith({ resourceId: idMock });
-			expect(nextMock).toHaveBeenCalledTimes(1);
-		});
-	});
-}); 
+      expect(entityServiceHasResourceMock).toHaveBeenCalledTimes(1);
+      expect(entityServiceHasResourceMock).toHaveBeenCalledWith({ resourceId: idMock });
+      expect(nextMock).toHaveBeenCalledTimes(1);
+    });
+  });
+});

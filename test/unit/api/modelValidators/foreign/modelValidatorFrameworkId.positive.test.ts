@@ -3,17 +3,17 @@ const entityServiceHasFrameworkMock = jest.fn().mockReturnValue(true);
 jest.mock('@datr.tech/leith-common-services', () => ({
   __esModule: true,
   entityService: {
-		hasFramework: entityServiceHasFrameworkMock
-  }
+    hasFramework: entityServiceHasFrameworkMock,
+  },
 }));
 
-import { modelValidatorFrameworkId } from "@app-ad/api/modelValidators/foreign";
+import { modelValidatorFrameworkId } from '@app-ad/api/modelValidators/foreign';
 import { Types } from 'mongoose';
 
-describe( "modelValidatorFrameworkId", () => {
-	describe("positive", () => {
-		test("should not throw an error when the underlying entityService (mocked) returns true", async () => {
-			/*
+describe('modelValidatorFrameworkId', () => {
+  describe('positive', () => {
+    test('should not throw an error when the underlying entityService (mocked) returns true', async () => {
+      /*
        * Arrange
        */
       const idMock = new Types.ObjectId();
@@ -23,14 +23,14 @@ describe( "modelValidatorFrameworkId", () => {
       /*
        * Act
        */
-			await modelValidatorFrameworkId(docMock, nextMock);
+      await modelValidatorFrameworkId(docMock, nextMock);
 
-			/*
+      /*
        * Assert
        */
-		  expect( entityServiceHasFrameworkMock ).toHaveBeenCalledTimes(1);
-		  expect( entityServiceHasFrameworkMock ).toHaveBeenCalledWith({ frameworkId: idMock });
-			expect(nextMock).toHaveBeenCalledTimes(1);
-		});
-	});
-}); 
+      expect(entityServiceHasFrameworkMock).toHaveBeenCalledTimes(1);
+      expect(entityServiceHasFrameworkMock).toHaveBeenCalledWith({ frameworkId: idMock });
+      expect(nextMock).toHaveBeenCalledTimes(1);
+    });
+  });
+});
