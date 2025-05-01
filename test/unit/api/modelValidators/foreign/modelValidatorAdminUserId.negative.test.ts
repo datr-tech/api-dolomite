@@ -3,26 +3,28 @@ const adminServiceHasUserMock = jest.fn().mockReturnValue(false);
 jest.mock('@datr.tech/leith-common-services', () => ({
   __esModule: true,
   personaService: {
-    hasUser: adminServiceHasUserMock,
-  },
+		hasUser: adminServiceHasUserMock
+  }
 }));
 
-import { modelValidatorAdminUserId } from '@app-ad/api/modelValidators/foreign';
+import { modelValidatorAdminUserId } from "@app-ad/api/modelValidators/foreign";
 import { Types } from 'mongoose';
 
 /**
  * modelValidatorAdminUserId.negative
  *
- * A positive test for modelValidatorAdminUserId where personaService.hasUser
+ * A negative test for modelValidatorAdminUserId where personaService.hasUser
  * (from '@datr.tech/leith-common-services') is mocked above, using adminServiceHasUserMock.
+ *
+ * @author Datr.Tech Admin <admin@datr.tech>
  */
-describe('modelValidatorAdminUserId', () => {
-  describe('negative', () => {
-    test('should throw the expected error when the underlying adminService (mocked) returns false', async () => {
-      /*
+describe( "modelValidatorAdminUserId", () => {
+	describe("negative", () => {
+		test("should throw the expected error when the underlying adminService (mocked) returns false", async () => {
+			/*
        * Arrange
        */
-      const errorExpected = 'adminUserId: invalid';
+			const errorExpected = "adminUserId: invalid";
       const idMock = new Types.ObjectId();
       const docMock = { adminUserId: idMock };
       const nextMock = jest.fn();
@@ -30,19 +32,17 @@ describe('modelValidatorAdminUserId', () => {
       /*
        * Act
        */
-      const handler = async () => {
-        await modelValidatorAdminUserId(docMock, nextMock);
-      };
+			const handler = async () => {
+				await modelValidatorAdminUserId(docMock, nextMock);
+			};
 
-      /*
+			/*
        * Assert
        */
-      await expect(handler()).rejects.toThrowError(errorExpected);
-      expect(adminServiceHasUserMock).toHaveBeenCalledTimes(1);
-      expect(adminServiceHasUserMock).toHaveBeenCalledWith(
-        expect.objectContaining({ userId: idMock }),
-      );
-      expect(nextMock).not.toHaveBeenCalled();
-    });
-  });
-});
+			await expect(handler()).rejects.toThrowError(errorExpected);
+		  expect( adminServiceHasUserMock ).toHaveBeenCalledTimes(1);
+		  expect( adminServiceHasUserMock ).toHaveBeenCalledWith(expect.objectContaining({ userId: idMock }));
+			expect(nextMock).not.toHaveBeenCalled();
+		});
+	});
+}); 
