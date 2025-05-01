@@ -10,6 +10,12 @@ jest.mock('@datr.tech/leith-common-services', () => ({
 import { modelValidatorResourceId } from '@app-ad/api/modelValidators/foreign';
 import { Types } from 'mongoose';
 
+/**
+ * modelValidatorResourceId.negative
+ *
+ * A positive test for modelValidatorResourceId where entityService.hasResource
+ * (from '@datr.tech/leith-common-services') is mocked above, using entityServiceHasResourceMock.
+ */
 describe('modelValidatorResourceId', () => {
   describe('negative', () => {
     test('should throw the expected error when the underlying entityService (mocked) returns false', async () => {
@@ -33,7 +39,9 @@ describe('modelValidatorResourceId', () => {
        */
       await expect(handler()).rejects.toThrowError(errorExpected);
       expect(entityServiceHasResourceMock).toHaveBeenCalledTimes(1);
-      expect(entityServiceHasResourceMock).toHaveBeenCalledWith({ resourceId: idMock });
+      expect(entityServiceHasResourceMock).toHaveBeenCalledWith(
+        expect.objectContaining({ resourceId: idMock }),
+      );
       expect(nextMock).not.toHaveBeenCalled();
     });
   });

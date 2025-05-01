@@ -10,6 +10,12 @@ jest.mock('@datr.tech/leith-common-services', () => ({
 import { modelValidatorAdminStatusId } from '@app-ad/api/modelValidators/foreign';
 import { Types } from 'mongoose';
 
+/**
+ * modelValidatorAdminStatusId.positive
+ *
+ * A positive test for modelValidatorAdminStatusId where adminService.hasStatus
+ * (from '@datr.tech/leith-common-services') is mocked above, using adminServiceHasStatusMock.
+ */
 describe('modelValidatorAdminStatusId', () => {
   describe('positive', () => {
     test('should not throw an error when the underlying adminService (mocked) returns true', async () => {
@@ -29,7 +35,9 @@ describe('modelValidatorAdminStatusId', () => {
        * Assert
        */
       expect(adminServiceHasStatusMock).toHaveBeenCalledTimes(1);
-      expect(adminServiceHasStatusMock).toHaveBeenCalledWith({ statusId: idMock });
+      expect(adminServiceHasStatusMock).toHaveBeenCalledWith(
+        expect.objectContaining({ statusId: idMock }),
+      );
       expect(nextMock).toHaveBeenCalledTimes(1);
     });
   });

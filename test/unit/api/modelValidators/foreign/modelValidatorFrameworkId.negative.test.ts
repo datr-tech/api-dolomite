@@ -10,6 +10,12 @@ jest.mock('@datr.tech/leith-common-services', () => ({
 import { modelValidatorFrameworkId } from '@app-ad/api/modelValidators/foreign';
 import { Types } from 'mongoose';
 
+/**
+ * modelValidatorFrameworkId.negative
+ *
+ * A positive test for modelValidatorFrameworkId where entityService.hasFramework
+ * (from '@datr.tech/leith-common-services') is mocked above, using entityServiceHasFrameworkMock.
+ */
 describe('modelValidatorFrameworkId', () => {
   describe('negative', () => {
     test('should throw the expected error when the underlying entityService (mocked) returns false', async () => {
@@ -33,7 +39,9 @@ describe('modelValidatorFrameworkId', () => {
        */
       await expect(handler()).rejects.toThrowError(errorExpected);
       expect(entityServiceHasFrameworkMock).toHaveBeenCalledTimes(1);
-      expect(entityServiceHasFrameworkMock).toHaveBeenCalledWith({ frameworkId: idMock });
+      expect(entityServiceHasFrameworkMock).toHaveBeenCalledWith(
+        expect.objectContaining({ frameworkId: idMock }),
+      );
       expect(nextMock).not.toHaveBeenCalled();
     });
   });

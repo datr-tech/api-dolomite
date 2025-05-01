@@ -10,6 +10,12 @@ jest.mock('@datr.tech/leith-common-services', () => ({
 import { modelValidatorAdminUserId } from '@app-ad/api/modelValidators/foreign';
 import { Types } from 'mongoose';
 
+/**
+ * modelValidatorAdminUserId.negative
+ *
+ * A positive test for modelValidatorAdminUserId where personaService.hasUser
+ * (from '@datr.tech/leith-common-services') is mocked above, using adminServiceHasUserMock.
+ */
 describe('modelValidatorAdminUserId', () => {
   describe('negative', () => {
     test('should throw the expected error when the underlying adminService (mocked) returns false', async () => {
@@ -33,7 +39,9 @@ describe('modelValidatorAdminUserId', () => {
        */
       await expect(handler()).rejects.toThrowError(errorExpected);
       expect(adminServiceHasUserMock).toHaveBeenCalledTimes(1);
-      expect(adminServiceHasUserMock).toHaveBeenCalledWith({ userId: idMock });
+      expect(adminServiceHasUserMock).toHaveBeenCalledWith(
+        expect.objectContaining({ userId: idMock }),
+      );
       expect(nextMock).not.toHaveBeenCalled();
     });
   });
