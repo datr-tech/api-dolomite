@@ -1,7 +1,7 @@
 import {
   modelValidatorAdminStatusId,
   modelValidatorAdminUserId,
-} from '@app-ad/api/modelValidators';
+} from '@app-ad/api/modelValidators/foreign';
 import {
   journeyTypeModelSchema,
   journeyTypeModelSchemaOptions,

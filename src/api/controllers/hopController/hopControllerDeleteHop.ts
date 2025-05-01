@@ -32,7 +32,7 @@ export const hopControllerDeleteHop: IHopControllerDeleteHop = async ({ hopId })
      * found model by updating the value of the model's
      * 'adminStatusId' field.
      */
-    const hopModel = await HopModel.findOneAndUpdate(
+    await HopModel.findOneAndUpdate(
       {
         _id: hopId,
       },

@@ -34,7 +34,7 @@ export const journeyControllerDeleteJourney: IJourneyControllerDeleteJourney = a
      * found model by updating the value of the model's
      * 'adminStatusId' field.
      */
-    const journeyModel = await JourneyModel.findOneAndUpdate(
+    await JourneyModel.findOneAndUpdate(
       {
         _id: journeyId,
       },

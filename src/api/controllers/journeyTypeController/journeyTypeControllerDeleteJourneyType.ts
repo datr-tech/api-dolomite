@@ -33,7 +33,7 @@ export const journeyTypeControllerDeleteJourneyType: IJourneyTypeControllerDelet
        * found model by updating the value of the model's
        * 'adminStatusId' field.
        */
-      const journeyTypeModel = await JourneyTypeModel.findOneAndUpdate(
+      await JourneyTypeModel.findOneAndUpdate(
         {
           _id: journeyTypeId,
         },

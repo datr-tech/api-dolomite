@@ -1,9 +1,9 @@
 import {
   modelValidatorAdminStatusId,
   modelValidatorAdminUserId,
-  modelValidatorJourneyId,
   modelValidatorResourceId,
-} from '@app-ad/api/modelValidators';
+} from '@app-ad/api/modelValidators/foreign';
+import { modelValidatorJourneyId } from '@app-ad/api/modelValidators/local/modelValidatorJourneyId';
 import {
   hopModelSchema,
   hopModelSchemaOptions,
