@@ -4,5 +4,6 @@ export interface IHopControllerReadHopOutputSuccess {
   error: false;
   payload: {
     hopModel: IHopModel;
+    responseStatusCode: number;
   };
 }

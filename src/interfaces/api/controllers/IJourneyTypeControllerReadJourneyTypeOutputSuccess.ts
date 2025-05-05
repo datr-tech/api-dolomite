@@ -4,5 +4,6 @@ export interface IJourneyTypeControllerReadJourneyTypeOutputSuccess {
   error: false;
   payload: {
     journeyTypeModel: IJourneyTypeModel;
+    responseStatusCode: number;
   };
 }

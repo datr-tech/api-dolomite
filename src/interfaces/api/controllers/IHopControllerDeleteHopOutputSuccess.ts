@@ -4,5 +4,6 @@ export interface IHopControllerDeleteHopOutputSuccess {
   error: false;
   payload: {
     hopId: Types.ObjectId;
+    responseStatusCode: number;
   };
 }

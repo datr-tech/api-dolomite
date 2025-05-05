@@ -36,7 +36,10 @@ export const journeyTypeControllerReadJourneyType: IJourneyTypeControllerReadJou
        * 'stat', to return the found model.
        */
       stat.error = false;
-      stat.payload = { journeyTypeModel };
+      stat.payload = {
+        journeyTypeModel,
+        responseStatusCode: 200,
+      };
 
       /*
        * Cast the response object to
@@ -51,7 +54,10 @@ export const journeyTypeControllerReadJourneyType: IJourneyTypeControllerReadJou
        * 'stat', to return the error message.
        */
       const { message } = error;
-      stat.payload = { message };
+      stat.payload = {
+        message,
+        responseStatusCode: 404,
+      };
 
       /*
        * Cast the response object to 'IJourneyTypeControllerReadJourneyTypeOutputError',

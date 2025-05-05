@@ -50,7 +50,10 @@ export const hopControllerDeleteHop: IHopControllerDeleteHop = async ({ hopId })
      * "soft deleted" model.
      */
     stat.error = false;
-    stat.payload = { hopId };
+    stat.payload = {
+      hopId,
+      responseStatusCode: 200,
+    };
 
     /*
      * Cast the response object to
@@ -65,7 +68,10 @@ export const hopControllerDeleteHop: IHopControllerDeleteHop = async ({ hopId })
      * 'stat', to return the error message.
      */
     const { message } = error;
-    stat.payload = { message };
+    stat.payload = {
+      message,
+      responseStatusCode: 404,
+    };
 
     /*
      * Cast the response object to 'IHopControllerDeleteHopOutputError',

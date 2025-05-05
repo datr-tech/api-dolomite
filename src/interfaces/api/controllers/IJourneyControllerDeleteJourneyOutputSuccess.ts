@@ -4,5 +4,6 @@ export interface IJourneyControllerDeleteJourneyOutputSuccess {
   error: false;
   payload: {
     journeyId: Types.ObjectId;
+    responseStatusCode: number;
   };
 }

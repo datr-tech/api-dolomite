@@ -51,7 +51,10 @@ export const journeyTypeControllerDeleteJourneyType: IJourneyTypeControllerDelet
        * "soft deleted" model.
        */
       stat.error = false;
-      stat.payload = { journeyTypeId };
+      stat.payload = {
+        journeyTypeId,
+        responseStatusCode: 200,
+      };
 
       /*
        * Cast the response object to
@@ -66,7 +69,10 @@ export const journeyTypeControllerDeleteJourneyType: IJourneyTypeControllerDelet
        * 'stat', to return the error message.
        */
       const { message } = error;
-      stat.payload = { message };
+      stat.payload = {
+        message,
+        responseStatusCode: 404,
+      };
 
       /*
        * Cast the response object to 'IJourneyTypeControllerDeleteJourneyTypeOutputError',
