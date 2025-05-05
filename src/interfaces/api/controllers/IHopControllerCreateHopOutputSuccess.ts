@@ -4,5 +4,6 @@ export interface IHopControllerCreateHopOutputSuccess {
   error: false;
   payload: {
     hopId: Types.ObjectId;
+    responseStatusCode: number;
   };
 }
