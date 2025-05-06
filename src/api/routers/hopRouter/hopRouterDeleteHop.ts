@@ -1,13 +1,19 @@
-import { Request, Response, Router } from 'express';
-import { checkExact, checkSchema, matchedData, Schema, validationResult } from 'express-validator';
+import { hopController } from '@app-ad/api/controllers/hopController';
+import {
+  IHopControllerDeleteHopOutputError as IControllerError,
+  IHopControllerDeleteHopOutputSuccess as IControllerSuccess,
+} from '@app-ad/interfaces/api/controllers';
+import { IHopModel } from '@app-ad/interfaces/api/models/IHopModel';
 import { hopValidationSchemaDeleteHop } from '@datr.tech/cargo-router-validation-schemas-dolomite';
 import { options } from '@datr.tech/leith-config-api-router-options';
-import { hopController } from '@app-ad/api/controllers/hopController';
-import { IHopModel } from '@app-ad/interfaces/api/models/IHopModel';
+import { Request, Response, Router } from 'express';
 import {
-	IHopControllerDeleteHopOutputError as IControllerError,
-	IHopControllerDeleteHopOutputSuccess as IControllerSuccess
-} from '@app-ad/interfaces/api/controllers';
+  checkExact,
+  checkSchema,
+  matchedData,
+  Schema,
+  validationResult,
+} from 'express-validator';
 
 /**
  * @name					hopRouterDeleteHop
@@ -15,7 +21,7 @@ import {
  * @description		The 'deleteHop' router for 'hop', whose expected
  *                inputs have been defined within the following schema:
  *                'hopValidationSchemaDeleteHop'.
- *                
+ *
  *                The schema will be used by 'express-validator' to perform input validation.
  *                When the validation process succeeds, control will pass to the associated
  *                controller, 'hopController', which, when successful, will return
@@ -33,8 +39,8 @@ import {
  *                | --------------------------- | ----------------- |
  *                | On success                  | 200               |
  *                | Router validation error     | 422               |
- *                | Controller validation error | 404               |		    
- *                | Server error                | 500               |		    
+ *                | Controller validation error | 404               |
+ *                | Server error                | 500               |
  */
 export const hopRouterDeleteHop = Router(options).delete(
   '/',
@@ -43,8 +49,8 @@ export const hopRouterDeleteHop = Router(options).delete(
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
-		try {
-			/*
+    try {
+      /*
        * Handle validation errors
        * ------------------------
        *
@@ -53,36 +59,35 @@ export const hopRouterDeleteHop = Router(options).delete(
        * Additionally, and because of the inclusion of 'checkExact()'
        * above, ONLY fields defined within the schema will be accepted.
        */
-			if (!errors.isEmpty()) {
-				res.status(422).send({ error: errors.array() });
-			}
-	
-			/*
+      if (!errors.isEmpty()) {
+        res.status(422).send({ error: errors.array() });
+      }
+
+      /*
        * Pass the validated params to the controller
        * -------------------------------------------
        *
        * On validation success, retrieve the 'validatedParams' object
        * from the received 'req' (using 'matchedData') and pass them
-       * to 'hopController'. 
+       * to 'hopController'.
        */
-			
-			const validatedParams = matchedData<IHopModel>(req);
-			const stat = await hopController.deleteHop(validatedParams);
-			
 
-			/*
+      const validatedParams = matchedData<IHopModel>(req);
+      const stat = await hopController.deleteHop(validatedParams);
+
+      /*
        * Handle controller errors
        * ------------------------
        *
        * If the common controller response object, 'stat', is not truthy, or if
        * 'stat.error' equals true, then handle the error returned by the controller.
        */
-			if (!stat || stat.error) {
-				const { message, responseStatusCode } = (stat as IControllerError).payload;
-				res.status(responseStatusCode).send({ error: message });
-			}
+      if (!stat || stat.error) {
+        const { message, responseStatusCode } = (stat as IControllerError).payload;
+        res.status(responseStatusCode).send({ error: message });
+      }
 
-		  /*
+      /*
        * Handle successful controller responses
        * --------------------------------------
        *
@@ -90,18 +95,16 @@ export const hopRouterDeleteHop = Router(options).delete(
        * 'hopId' from 'stat.payload' and return
        * it with an appropriate status code.
        */
-			
-			const controllerResponsePayload = (stat as IControllerSuccess).payload;
-			const { responseStatusCode } = controllerResponsePayload;
-			res.status(responseStatusCode).send({ hopId: controllerResponsePayload["hopId"] });
-			
-		} catch(error) {
 
+      const controllerResponsePayload = (stat as IControllerSuccess).payload;
+      const { responseStatusCode } = controllerResponsePayload;
+      res.status(responseStatusCode).send({ hopId: controllerResponsePayload['hopId'] });
+    } catch (error) {
       /*
-       * Handle any errors not caught above. 
+       * Handle any errors not caught above.
        */
-			const { message } = error;
-			res.status(500).send({ error: message });
-		}
+      const { message } = error;
+      res.status(500).send({ error: message });
+    }
   },
 );
