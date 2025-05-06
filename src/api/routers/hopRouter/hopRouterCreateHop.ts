@@ -1,14 +1,10 @@
 /**
- * @module api/routers/hopRouter
+ * @module api/routers/
  */
-import { hopController } from '@app-ad/api/controllers/hopController';
-import {
-  IHopControllerCreateHopOutputError as IControllerError,
-  IHopControllerCreateHopOutputSuccess as IControllerSuccess,
-} from '@app-ad/interfaces/api/controllers';
-import { IHopModel } from '@app-ad/interfaces/api/models/IHopModel';
-import { hopValidationSchemaCreateHop } from '@datr.tech/cargo-router-validation-schemas-dolomite';
-import { options } from '@datr.tech/leith-config-api-router-options';
+
+/*
+ * External imports
+ */
 import { Request, Response, Router } from 'express';
 import {
   checkExact,
@@ -18,11 +14,28 @@ import {
   validationResult,
 } from 'express-validator';
 
+/*
+ * @datr.tech imports
+ */
+import { hopValidationSchemaCreateHop } from '@datr.tech/cargo-router-validation-schemas-dolomite';
+import { options } from '@datr.tech/leith-config-api-router-options';
+
+/*
+ * Local, non-relative imports
+ */
+import { hopController } from '@app-ad/api/controllers/hopController';
+import {
+  IHopControllerCreateHopOutputError as IControllerError,
+  IHopControllerCreateHopOutputSuccess as IControllerSuccess,
+} from '@app-ad/interfaces/api/controllers';
+import { IHopModel } from '@app-ad/interfaces/api/models/IHopModel';
+
 /**
  * @name					hopRouterCreateHop
  *
  * @description		The 'createHop' router for 'hop', whose expected
- *                inputs have been defined within the following schema: 'hopValidationSchemaCreateHop',
+ *                inputs have been defined within the following schema:
+ *                'hopValidationSchemaCreateHop'.
  *
  *                The schema will be used by 'express-validator' to perform input validation.
  *                When the validation process succeeds, control will pass to the associated
@@ -36,8 +49,15 @@ import {
  *
  * @author				Datr.Tech Admin <admin@datr.tech>
  * @version				0.3.2
+ *
+ * @see		        | Outcomes                    | HTTP status codes |
+ *                | --------------------------- | ----------------- |
+ *                | On success                  | 201           |
+ *                | Router validation error     | 422               |
+ *                | Controller validation error | 404               |
+ *                | Server error                | 500               |
  */
-export const hopRouterCreateHop = Router(options).Post(
+export const hopRouterCreateHop = Router(options).post(
   '/',
   checkSchema(<Schema>hopValidationSchemaCreateHop),
   checkExact(),
@@ -46,6 +66,9 @@ export const hopRouterCreateHop = Router(options).Post(
 
     try {
       /*
+       * Handle validation errors
+       * ------------------------
+       *
        * Handle validation errors in relation to the fields
        * defined within 'hopValidationSchemaCreateHop'.
        * Additionally, and because of the inclusion of 'checkExact()'
@@ -56,6 +79,9 @@ export const hopRouterCreateHop = Router(options).Post(
       }
 
       /*
+       * Pass the validated params to the controller
+       * -------------------------------------------
+       *
        * On validation success, retrieve the 'validatedParams' object
        * from the received 'req' (using 'matchedData') and pass them
        * to 'hopController'.
@@ -64,6 +90,9 @@ export const hopRouterCreateHop = Router(options).Post(
       const stat = await hopController.createHop(validatedParams);
 
       /*
+       * Handle controller errors
+       * ------------------------
+       *
        * If the common controller response object, 'stat', is not truthy, or if
        * 'stat.error' equals true, then handle the error returned by the controller.
        */
@@ -73,6 +102,9 @@ export const hopRouterCreateHop = Router(options).Post(
       }
 
       /*
+       * Handle successful controller responses
+       * --------------------------------------
+       *
        * If the controller call proved to be successful, extract
        * 'hopId' from 'stat.payload' and return
        * it with an appropriate status code.
