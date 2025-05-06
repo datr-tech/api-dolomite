@@ -1,6 +1,10 @@
-import { journeyController } from '@app-ad/api/controllers/journeyController';
-import { journeyValidationSchemaReadJourney } from '@datr.tech/cargo-router-validation-schemas-dolomite';
-import { options } from '@datr.tech/leith-config-api-router-options';
+/**
+ * @module api/routers/
+ */
+
+/*
+ * External imports
+ */
 import { Request, Response, Router } from 'express';
 import {
   checkExact,
@@ -10,6 +14,49 @@ import {
   validationResult,
 } from 'express-validator';
 
+/*
+ * @datr.tech imports
+ */
+import { journeyValidationSchemaReadJourney } from '@datr.tech/cargo-router-validation-schemas-dolomite';
+import { options } from '@datr.tech/leith-config-api-router-options';
+
+/*
+ * Local, non-relative imports
+ */
+import { journeyController } from '@app-ad/api/controllers/journeyController';
+import {
+  IJourneyControllerReadJourneyOutputError as IControllerError,
+  IJourneyControllerReadJourneyOutputSuccess as IControllerSuccess,
+} from '@app-ad/interfaces/api/controllers';
+import { IJourneyModel } from '@app-ad/interfaces/api/models/IJourneyModel';
+
+/**
+ * @name					journeyRouterReadJourney
+ *
+ * @description		The 'readJourney' router for 'journey', whose expected
+ *                inputs have been defined within the following schema:
+ *                'journeyValidationSchemaReadJourney'.
+ *
+ *                The schema will be used by 'express-validator' to perform input validation.
+ *                When the validation process succeeds, control will pass to the associated
+ *                controller, 'journeyController', which, when successful, will return
+ *                a common status (or 'stat') object, whose 'payload' will contain
+ *                'journeyModel'.
+ *
+ * @param					{Request}		req		The Express request.
+ * @param         {Response}	res		The Express response.
+ * @return				{undefined}
+ *
+ * @author				Datr.Tech Admin <admin@datr.tech>
+ * @version				0.3.2
+ *
+ * @see		        | Outcomes                    | HTTP status codes |
+ *                | --------------------------- | ----------------- |
+ *                | On success                  | 200               |
+ *                | Router validation error     | 422               |
+ *                | Controller validation error | 404               |
+ *                | Server error                | 500               |
+ */
 export const journeyRouterReadJourney = Router(options).get(
   '/',
   checkSchema(<Schema>journeyValidationSchemaReadJourney),
@@ -17,13 +64,61 @@ export const journeyRouterReadJourney = Router(options).get(
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
-    if (errors.isEmpty()) {
-      const { journeyId } = matchedData(req);
-      const journey = await journeyController.readJourney({ journeyId });
+    try {
+      /*
+       * Handle validation errors
+       * ------------------------
+       *
+       * Handle validation errors in relation to the fields
+       * defined within 'journeyValidationSchemaReadJourney'.
+       * Additionally, and because of the inclusion of 'checkExact()'
+       * above, ONLY fields defined within the schema will be accepted.
+       */
+      if (!errors.isEmpty()) {
+        res.status(422).send({ error: errors.array() });
+      }
 
-      res.status(200).send({ journey });
-    } else {
-      res.status(404).send({ error: errors.array() });
+      /*
+       * Pass the validated params to the controller
+       * -------------------------------------------
+       *
+       * On validation success, retrieve the 'validatedParams' object
+       * from the received 'req' (using 'matchedData') and pass them
+       * to 'journeyController'.
+       */
+
+      const validatedParams = matchedData<IJourneyModel>(req);
+      const stat = await journeyController.readJourney(validatedParams);
+
+      /*
+       * Handle controller errors
+       * ------------------------
+       *
+       * If the common controller response object, 'stat', is not truthy, or if
+       * 'stat.error' equals true, then handle the error returned by the controller.
+       */
+      if (!stat || stat.error) {
+        const { message, responseStatusCode } = (stat as IControllerError).payload;
+        res.status(responseStatusCode).send({ error: message });
+      }
+
+      /*
+       * Handle successful controller responses
+       * --------------------------------------
+       *
+       * If the controller call proved to be successful, extract
+       * 'journeyModel' from 'stat.payload' and return
+       * it with an appropriate status code.
+       */
+
+      const { journeyModel, responseStatusCode } = (stat as IControllerSuccess).payload;
+      res.status(responseStatusCode).send({ journeyModel });
+    } catch (error) {
+      /*
+       * Handle any errors not caught above.
+       */
+      const { message } = error;
+      res.status(500).send({ error: message });
     }
   },
 );

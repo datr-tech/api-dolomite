@@ -52,7 +52,7 @@ import { IHopModel } from '@app-ad/interfaces/api/models/IHopModel';
  *
  * @see		        | Outcomes                    | HTTP status codes |
  *                | --------------------------- | ----------------- |
- *                | On success                  | 201           |
+ *                | On success                  | 201               |
  *                | Router validation error     | 422               |
  *                | Controller validation error | 404               |
  *                | Server error                | 500               |
@@ -86,6 +86,7 @@ export const hopRouterCreateHop = Router(options).post(
        * from the received 'req' (using 'matchedData') and pass them
        * to 'hopController'.
        */
+
       const validatedParams = matchedData<IHopModel>(req);
       const stat = await hopController.createHop(validatedParams);
 
@@ -109,8 +110,10 @@ export const hopRouterCreateHop = Router(options).post(
        * 'hopId' from 'stat.payload' and return
        * it with an appropriate status code.
        */
-      const { hopId, responseStatusCode } = (stat as IControllerSuccess).payload;
-      res.status(responseStatusCode).send({ hopId });
+
+      const controllerResponsePayload = (stat as IControllerSuccess).payload;
+      const { responseStatusCode } = controllerResponsePayload;
+      res.status(responseStatusCode).send({ hopId: controllerResponsePayload['hopId'] });
     } catch (error) {
       /*
        * Handle any errors not caught above.

@@ -8,7 +8,7 @@ export const seederJourneyTypeModel = async () => {
   const journeyTypeModelParams = {
     journeyTypeId,
     name: 'test',
-    description,
+    description: "",
     adminStatusId,
     adminUserId,
   };
