@@ -1,32 +1,12 @@
-/**
- * @module api/routers/
- */
-
-/*
- * External imports
- */
 import { Request, Response, Router } from 'express';
-import {
-  checkExact,
-  checkSchema,
-  matchedData,
-  Schema,
-  validationResult,
-} from 'express-validator';
-
-/*
- * @datr.tech imports
- */
+import { checkExact, checkSchema, matchedData, Schema, validationResult } from 'express-validator';
 import { journeyValidationSchemaUpdateJourney } from '@datr.tech/cargo-router-validation-schemas-dolomite';
 import { options } from '@datr.tech/leith-config-api-router-options';
-
-/*
- * Local, non-relative imports
- */
 import { journeyController } from '@app-ad/api/controllers/journeyController';
+import { IJourneyModel } from '@app-ad/interfaces/api/models/IJourneyModel';
 import {
-  IJourneyControllerUpdateJourneyOutputError as IControllerError,
-  IJourneyControllerUpdateJourneyOutputSuccess as IControllerSuccess,
+	IJourneyControllerUpdateJourneyOutputError as IControllerError,
+	IJourneyControllerUpdateJourneyOutputSuccess as IControllerSuccess
 } from '@app-ad/interfaces/api/controllers';
 
 /**
@@ -35,7 +15,7 @@ import {
  * @description		The 'updateJourney' router for 'journey', whose expected
  *                inputs have been defined within the following schema:
  *                'journeyValidationSchemaUpdateJourney'.
- *
+ *                
  *                The schema will be used by 'express-validator' to perform input validation.
  *                When the validation process succeeds, control will pass to the associated
  *                controller, 'journeyController', which, when successful, will return
@@ -53,8 +33,8 @@ import {
  *                | --------------------------- | ----------------- |
  *                | On success                  | 200               |
  *                | Router validation error     | 422               |
- *                | Controller validation error | 404               |
- *                | Server error                | 500               |
+ *                | Controller validation error | 404               |		    
+ *                | Server error                | 500               |		    
  */
 export const journeyRouterUpdateJourney = Router(options).patch(
   '/',
@@ -63,8 +43,8 @@ export const journeyRouterUpdateJourney = Router(options).patch(
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
-    try {
-      /*
+		try {
+			/*
        * Handle validation errors
        * ------------------------
        *
@@ -73,35 +53,36 @@ export const journeyRouterUpdateJourney = Router(options).patch(
        * Additionally, and because of the inclusion of 'checkExact()'
        * above, ONLY fields defined within the schema will be accepted.
        */
-      if (!errors.isEmpty()) {
-        res.status(422).send({ error: errors.array() });
-      }
-
-      /*
+			if (!errors.isEmpty()) {
+				res.status(422).send({ error: errors.array() });
+			}
+	
+			/*
        * Pass the validated params to the controller
        * -------------------------------------------
        *
        * On validation success, retrieve the 'validatedParams' object
        * from the received 'req' (using 'matchedData') and pass them
-       * to 'journeyController'.
+       * to 'journeyController'. 
        */
+			
+		  const { journeyId, ...payload } = matchedData(req);
+			const stat = await journeyController.updateJourney({ journeyId, payload });
+			
 
-      const { journeyId, ...payload } = matchedData(req);
-      const stat = await journeyController.updateJourney({ journeyId, payload });
-
-      /*
+			/*
        * Handle controller errors
        * ------------------------
        *
        * If the common controller response object, 'stat', is not truthy, or if
        * 'stat.error' equals true, then handle the error returned by the controller.
        */
-      if (!stat || stat.error) {
-        const { message, responseStatusCode } = (stat as IControllerError).payload;
-        res.status(responseStatusCode).send({ error: message });
-      }
+			if (!stat || stat.error) {
+				const { message, responseStatusCode } = (stat as IControllerError).payload;
+				res.status(responseStatusCode).send({ error: message });
+			}
 
-      /*
+		  /*
        * Handle successful controller responses
        * --------------------------------------
        *
@@ -109,18 +90,18 @@ export const journeyRouterUpdateJourney = Router(options).patch(
        * 'journeyId' from 'stat.payload' and return
        * it with an appropriate status code.
        */
+			
+			const controllerResponsePayload = (stat as IControllerSuccess).payload;
+			const { responseStatusCode } = controllerResponsePayload;
+			res.status(responseStatusCode).send({ journeyId: controllerResponsePayload["journeyId"] });
+			
+		} catch(error) {
 
-      const controllerResponsePayload = (stat as IControllerSuccess).payload;
-      const { responseStatusCode } = controllerResponsePayload;
-      res
-        .status(responseStatusCode)
-        .send({ journeyId: controllerResponsePayload['journeyId'] });
-    } catch (error) {
       /*
-       * Handle any errors not caught above.
+       * Handle any errors not caught above. 
        */
-      const { message } = error;
-      res.status(500).send({ error: message });
-    }
+			const { message } = error;
+			res.status(500).send({ error: message });
+		}
   },
 );
