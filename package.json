@@ -57,7 +57,7 @@
     "@datr.tech/cargo-router-validation-schemas-dolomite": "^0.4.1",
     "@datr.tech/leith-common-logger": "^0.4.0",
     "@datr.tech/leith-common-mongodb-connector": "^0.4.3",
-    "@datr.tech/leith-common-seeders": "^0.3.1",
+    "@datr.tech/leith-common-seeders": "^0.3.3",
     "@datr.tech/leith-common-services": "^0.4.2",
     "@datr.tech/leith-config-api-router-options": "^0.4.0",
     "@datr.tech/parcel-model-schemas-dolomite": "^0.5.2",
