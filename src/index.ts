@@ -1,6 +1,6 @@
 import { app } from '@app-ad/api';
-import { apiName, apiPort, dbHost, dbName, dbPort } from '@app-ad/config';
 import { HopModel, JourneyModel, JourneyTypeModel } from '@app-ad/api/models';
+import { apiName, apiPort, dbHost, dbName, dbPort } from '@app-ad/config';
 import { logger } from '@datr.tech/leith-common-logger';
 import { db } from '@datr.tech/leith-common-mongodb-connector';
 import { dolomiteSeeder } from '@datr.tech/leith-common-seeders';
