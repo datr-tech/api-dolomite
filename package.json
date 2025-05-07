@@ -50,13 +50,14 @@
     "start": "node ./dist/index.js",
     "test": "npm run test:unit",
     "test:it": "npx jest -c ./jest.config.integration.json ./test/integration",
-    "test:unit": "npx jest -c ./jest.config.unit.json ./test/unit --coverage",
+    "test:unit": "npx jest --runInBand --detectOpenHandles -c ./jest.config.unit.json ./test/unit --coverage",
     "version": "npm-run-all build changelog"
   },
   "dependencies": {
     "@datr.tech/cargo-router-validation-schemas-dolomite": "^0.4.1",
     "@datr.tech/leith-common-logger": "^0.4.0",
     "@datr.tech/leith-common-mongodb-connector": "^0.4.3",
+    "@datr.tech/leith-common-seeders": "^0.3.1",
     "@datr.tech/leith-common-services": "^0.4.2",
     "@datr.tech/leith-config-api-router-options": "^0.4.0",
     "@datr.tech/parcel-model-schemas-dolomite": "^0.5.2",

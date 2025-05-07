@@ -1,8 +1,9 @@
 import { app } from '@app-ad/api';
+import { HopModel, JourneyModel, JourneyTypeModel } from '@app-ad/api/models';
 import { apiName, apiPort, dbHost, dbName, dbPort } from '@app-ad/config';
-import { seeder } from '@app-ad/db/seeder';
 import { logger } from '@datr.tech/leith-common-logger';
 import { db } from '@datr.tech/leith-common-mongodb-connector';
+import { dolomiteSeeder } from '@datr.tech/leith-common-seeders';
 import 'dotenv/config';
 
 app.listen(apiPort, () => {
@@ -17,6 +18,6 @@ app.listen(apiPort, () => {
       pass: undefined,
     });
 
-    await seeder();
+    await dolomiteSeeder(HopModel, JourneyModel, JourneyTypeModel);
   })();
 });
