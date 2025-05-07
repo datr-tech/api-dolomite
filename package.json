@@ -1,7 +1,7 @@
 {
   "name": "@datr.tech/api-dolomite",
   "description": "API for dolomite",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "private": false,
   "homepage": "https://github.com/datr.tech/api-dolomite",
   "repository": {
