@@ -21,7 +21,7 @@ app.listen(apiPort, () => {
     const { isConnected } = stat;
 
     if (isConnected) {
-      dolomiteSeeder(HopModel, JourneyModel, JourneyTypeModel);
+      await dolomiteSeeder(HopModel, JourneyModel, JourneyTypeModel);
     }
   })();
 });
